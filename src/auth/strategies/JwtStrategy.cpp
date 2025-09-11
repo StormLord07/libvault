@@ -6,7 +6,6 @@ Vault::JwtStrategy::authenticate(const Vault::Client &client) {
   return HttpConsumer::authenticate(
       client, getUrl(client, Vault::Path{"/login"}), [this]() {
         Parameters j;
-        j = nlohmann::json::object();
         j["role"] = role_.value();
         j["jwt"] = jwt_.value();
         return j.dump();

@@ -11,7 +11,6 @@ Vault::LdapStrategy::authenticate(const Vault::Client &client) {
   return Vault::HttpConsumer::authenticate(
       client, getUrl(client, Vault::Path{username_}), [&]() {
         Parameters j;
-        j = nlohmann::json::object();
         j["password"] = password_;
         return j.dump().value_or("{}");
       });
