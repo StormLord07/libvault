@@ -1,6 +1,7 @@
 #include "VaultClient.h"
 #include "json.hpp"
 #include "support/CreateJson.h"
+#include <glaze/glaze.hpp>
 #include <iostream>
 #include <utility>
 

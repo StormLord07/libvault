@@ -1,4 +1,5 @@
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 
 std::optional<std::string> Vault::AppRole::list() const {
   return HttpConsumer::list(client_, getUrl(Path{}));

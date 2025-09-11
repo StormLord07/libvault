@@ -1,5 +1,6 @@
 #include "VaultClient.h"
 #include "json.hpp"
+#include <glaze/glaze.hpp>
 
 std::optional<std::string>
 Vault::Transit::createKey(const Path &path, const Parameters &parameters) {
