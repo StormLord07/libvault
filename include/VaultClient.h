@@ -12,6 +12,10 @@
 #include <variant>
 #include <vector>
 
+namespace glz {
+struct json_t;
+}
+
 namespace Vault {
 template <typename Name, typename T> struct Tiny {
   Tiny() noexcept(std::is_nothrow_constructible_v<T>) = default;
@@ -27,7 +31,7 @@ template <typename Name, typename T> struct Tiny {
   friend std::string operator+(const Tiny &tiny, const Tiny &other) {
     return tiny.value() + other.value();
   }
-  template<typename U>
+  template <typename U>
   friend std::string operator+(const Tiny &tiny, const Tiny<U, T> &other) {
     return tiny.value() + other.value();
   }
@@ -133,7 +137,7 @@ class Client;
 using Map = std::unordered_map<std::string, std::string>;
 using ValueVariant =
     std::variant<std::string, int, std::vector<std::string>, Map>;
-using Parameters = std::unordered_map<std::string, ValueVariant>;
+using Parameters = glz::json_t;
 using HttpErrorCallback = std::function<void(std::string)>;
 using ResponseErrorCallback = std::function<void(const HttpResponse &)>;
 using CurlSetupCallback = std::function<void(CURL *curl)>;
@@ -483,18 +487,14 @@ private:
 class JwtStrategy : public AuthenticationStrategy {
 public:
   JwtStrategy(RoleId role, Jwt jwt)
-    : role_(std::move(role))
-    , jwt_(std::move(jwt))
-    , mount_(Path{"jwt"})
-  {}
+      : role_(std::move(role)), jwt_(std::move(jwt)), mount_(Path{"jwt"}) {}
 
   JwtStrategy(RoleId role, Jwt jwt, Path mount)
-    : role_(std::move(role))
-    , jwt_(std::move(jwt))
-    , mount_(std::move(mount))
-  {}
+      : role_(std::move(role)), jwt_(std::move(jwt)), mount_(std::move(mount)) {
+  }
 
-  std::optional<AuthenticationResponse> authenticate(const Client &client) override;
+  std::optional<AuthenticationResponse>
+  authenticate(const Client &client) override;
 
 private:
   Url getUrl(const Client &client, const Path &path);
@@ -1999,8 +1999,10 @@ private:
 
 class JwtOidc {
 public:
-  explicit JwtOidc(const Client &client) : client_(client), mount_(Path{"jwt"}) {}
-  JwtOidc(const Client &client, Path path) : client_(client), mount_(std::move(path)) {}
+  explicit JwtOidc(const Client &client)
+      : client_(client), mount_(Path{"jwt"}) {}
+  JwtOidc(const Client &client, Path path)
+      : client_(client), mount_(std::move(path)) {}
 
   std::optional<std::string> configure(const Parameters &parameters) const;
   [[nodiscard]] std::optional<std::string> readConfig() const;

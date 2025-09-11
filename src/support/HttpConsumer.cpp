@@ -88,11 +88,11 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
     return std::nullopt;
   }
 
-  nlohmann::json json = helpers::create_json(parameters);
+  // nlohmann::json json = helpers::create_json(parameters);
 
   auto response =
       client.getHttpClient().post(url, client.getToken(), client.getNamespace(),
-                                  json.dump(), headerCallback);
+                                  parameters.dump(), headerCallback);
 
   if (HttpClient::is_success(response)) {
     return {response.value().body.value()};
@@ -112,10 +112,10 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
     return std::nullopt;
   }
 
-  nlohmann::json json = helpers::create_json(parameters);
+  // nlohmann::json json = helpers::create_json(parameters);
 
   auto response = client.getHttpClient().post(
-      url, client.getToken(), client.getNamespace(), json.dump());
+      url, client.getToken(), client.getNamespace(), parameters.dump());
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -132,10 +132,10 @@ std::optional<std::string>
 Vault::HttpConsumer::unauthenticated_post(const Vault::Client &client,
                                           const Vault::Url &url,
                                           const Parameters &parameters) {
-  nlohmann::json json = helpers::create_json(parameters);
+  // nlohmann::json json = helpers::create_json(parameters);
 
   auto response = client.getHttpClient().post(
-      url, Token{}, client.getNamespace(), json.dump());
+      url, Token{}, client.getNamespace(), parameters.dump());
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -156,12 +156,12 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
     return std::nullopt;
   }
 
-  nlohmann::json json = helpers::create_json(parameters);
-  json["options"] = helpers::create_json(options);
-  json["config"] = helpers::create_json(config);
+  // nlohmann::json json = helpers::create_json(parameters);
+  parameters["options"] = options;
+  parameters["config"] = config;
 
   auto response = client.getHttpClient().post(
-      url, client.getToken(), client.getNamespace(), json.dump());
+      url, client.getToken(), client.getNamespace(), parameters.dump());
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -203,10 +203,10 @@ Vault::HttpConsumer::put(const Vault::Client &client, const Vault::Url &url,
     return std::nullopt;
   }
 
-  nlohmann::json json = helpers::create_json(parameters);
+  // nlohmann::json json = helpers::create_json(parameters);
 
   auto response = client.getHttpClient().put(
-      url, client.getToken(), client.getNamespace(), json.dump());
+      url, client.getToken(), client.getNamespace(), parameters.dump());
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -227,11 +227,11 @@ Vault::HttpConsumer::put(const Vault::Client &client, const Vault::Url &url,
     return std::nullopt;
   }
 
-  nlohmann::json json = helpers::create_json(parameters);
-  json["options"] = helpers::create_json(options);
+  // nlohmann::json json = helpers::create_json(parameters);
+  parameters["options"] = options;
 
   auto response = client.getHttpClient().put(
-      url, client.getToken(), client.getNamespace(), json.dump());
+      url, client.getToken(), client.getNamespace(), parameters.dump());
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();

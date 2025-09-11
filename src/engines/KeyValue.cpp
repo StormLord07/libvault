@@ -5,26 +5,19 @@
 #include <utility>
 
 Vault::KeyValue::KeyValue(const Vault::Client &client)
-    : client_(client)
-    , version_(KeyValue::Version::v2)
-    , mount_("secret") {}
+    : client_(client), version_(KeyValue::Version::v2), mount_("secret") {}
 
 Vault::KeyValue::KeyValue(const Vault::Client &client, Vault::SecretMount mount)
-    : client_(client)
-    , version_(KeyValue::Version::v2)
-    , mount_(std::move(mount)) {}
+    : client_(client), version_(KeyValue::Version::v2),
+      mount_(std::move(mount)) {}
 
 Vault::KeyValue::KeyValue(const Vault::Client &client,
                           KeyValue::Version version)
-    : client_(client)
-    , version_(version)
-    , mount_("secret") {}
+    : client_(client), version_(version), mount_("secret") {}
 
 Vault::KeyValue::KeyValue(const Vault::Client &client, Vault::SecretMount mount,
                           KeyValue::Version version)
-    : client_(client)
-    , version_(version)
-    , mount_(std::move(mount)) {}
+    : client_(client), version_(version), mount_(std::move(mount)) {}
 
 Vault::Url Vault::KeyValue::getUrl(const Vault::Path &path) {
   return version_ == KeyValue::Version::v1
@@ -54,12 +47,12 @@ Vault::KeyValue::read(const Vault::Path &path,
 
 std::optional<std::string>
 Vault::KeyValue::create(const Vault::Path &path, const Parameters &parameters) {
-  return Vault::HttpConsumer::post(
-      client_, getUrl(path), parameters, [&](const Parameters &params) {
-        nlohmann::json json;
-        json["data"] = helpers::create_json(params);
-        return json.dump();
-      });
+  return Vault::HttpConsumer::post(client_, getUrl(path), parameters,
+                                   [&](const Parameters &params) {
+                                     glz::json_t json;
+                                     json["data"] = params;
+                                     return json.dump();
+                                   });
 }
 
 std::optional<std::string>
@@ -70,8 +63,8 @@ Vault::KeyValue::update(const Vault::Path &path, const Parameters &parameters) {
 
   return Vault::HttpConsumer::put(client_, getUrl(path), parameters,
                                   [&](const Parameters &params) {
-                                    nlohmann::json json;
-                                    json["data"] = helpers::create_json(params);
+                                    glz::json_t json;
+                                    json["data"] = params;
                                     return json.dump();
                                   });
 }

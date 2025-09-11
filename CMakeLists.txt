@@ -4,7 +4,7 @@ project(
   VERSION 0.63.0
   DESCRIPTION "Vault library for C++")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -122,6 +122,15 @@ set_target_properties(
 
 target_include_directories(vault PRIVATE src)
 
+include(FetchContent)
+FetchContent_Declare(
+  glaze
+  GIT_REPOSITORY https://github.com/stephenberry/glaze.git
+  GIT_TAG        v5.7.1
+  GIT_SHALLOW    TRUE
+)
+FetchContent_MakeAvailable(glaze)
+
 if(LINK_CURL)
   find_package(CURL CONFIG REQUIRED)
   target_link_libraries(vault PUBLIC CURL::libcurl)
@@ -131,6 +140,9 @@ if(ENABLE_COVERAGE)
   target_link_libraries(vault gcov)
   set(CMAKE_CXX_FLAGS_DEBUG --coverage)
 endif()
+
+target_link_libraries(vault PRIVATE glaze::glaze)
+
 
 if(INSTALL)
   install(

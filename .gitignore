@@ -15,3 +15,4 @@ venv
 example/**/example
 .cache
 compile_commands.json
+.vscode
