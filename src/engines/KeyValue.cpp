@@ -50,9 +50,9 @@ std::optional<std::string>
 Vault::KeyValue::create(const Vault::Path &path, const Parameters &parameters) {
   return Vault::HttpConsumer::post(client_, getUrl(path), parameters,
                                    [&](const Parameters &params) {
-                                     glz::json_t json;
+                                     Parameters json;
                                      json["data"] = params;
-                                     return json.dump();
+                                     return json.dump().value_or("{}");
                                    });
 }
 
@@ -64,9 +64,9 @@ Vault::KeyValue::update(const Vault::Path &path, const Parameters &parameters) {
 
   return Vault::HttpConsumer::put(client_, getUrl(path), parameters,
                                   [&](const Parameters &params) {
-                                    glz::json_t json;
+                                    Parameters json;
                                     json["data"] = params;
-                                    return json.dump();
+                                    return json.dump().value_or("{}");
                                   });
 }
 
@@ -83,9 +83,9 @@ std::optional<std::string> Vault::KeyValue::del(const Vault::Path &path,
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/delete/", path), Parameters{},
       [&]([[maybe_unused]] const Parameters &params) {
-        nlohmann::json j;
+        Parameters j;
         j["versions"] = versions;
-        return j.dump();
+        return json.dump().value_or("{}");
       });
 }
 
@@ -99,9 +99,9 @@ Vault::KeyValue::destroy(const Vault::Path &path,
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/destroy/", path), Parameters{},
       [&]([[maybe_unused]] const Parameters &params) {
-        nlohmann::json j;
+        Parameters j;
         j["versions"] = versions;
-        return j.dump();
+        return json.dump().value_or("{}");
       });
 }
 
@@ -114,9 +114,9 @@ Vault::KeyValue::undelete(const Path &path, std::vector<int64_t> versions) {
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/undelete/", path),
       Parameters{}, [&]([[maybe_unused]] const Parameters &params) {
-        nlohmann::json j;
+        Parameters j;
         j["versions"] = versions;
-        return j.dump();
+        return json.dump().value_or("{}");
       });
 }
 
