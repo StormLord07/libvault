@@ -8,7 +8,7 @@ Vault::JwtStrategy::authenticate(const Vault::Client &client) {
         Parameters j;
         j["role"] = role_.value();
         j["jwt"] = jwt_.value();
-        return j.dump();
+        return j.dump().value_or("{}");
       });
 }
 
