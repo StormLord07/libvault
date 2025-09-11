@@ -91,9 +91,9 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
 
   // nlohmann::json json = helpers::create_json(parameters);
 
-  auto response =
-      client.getHttpClient().post(url, client.getToken(), client.getNamespace(),
-                                  parameters.dump(), headerCallback);
+  auto response = client.getHttpClient().post(
+      url, client.getToken(), client.getNamespace(), parameters.dump(),
+      value_or("{}"), headerCallback);
 
   if (HttpClient::is_success(response)) {
     return {response.value().body.value()};
@@ -115,8 +115,9 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
 
   // nlohmann::json json = helpers::create_json(parameters);
 
-  auto response = client.getHttpClient().post(
-      url, client.getToken(), client.getNamespace(), parameters.dump());
+  auto response =
+      client.getHttpClient().post(url, client.getToken(), client.getNamespace(),
+                                  parameters.dump().value_or("{}"));
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -136,7 +137,7 @@ Vault::HttpConsumer::unauthenticated_post(const Vault::Client &client,
   // nlohmann::json json = helpers::create_json(parameters);
 
   auto response = client.getHttpClient().post(
-      url, Token{}, client.getNamespace(), parameters.dump());
+      url, Token{}, client.getNamespace(), parameters.dump().value_or("{}"));
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -161,8 +162,9 @@ Vault::HttpConsumer::post(const Vault::Client &client, const Vault::Url &url,
   parameters["options"] = options;
   parameters["config"] = config;
 
-  auto response = client.getHttpClient().post(
-      url, client.getToken(), client.getNamespace(), parameters.dump());
+  auto response =
+      client.getHttpClient().post(url, client.getToken(), client.getNamespace(),
+                                  parameters.dump().value_or("{}"));
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -206,8 +208,9 @@ Vault::HttpConsumer::put(const Vault::Client &client, const Vault::Url &url,
 
   // nlohmann::json json = helpers::create_json(parameters);
 
-  auto response = client.getHttpClient().put(
-      url, client.getToken(), client.getNamespace(), parameters.dump());
+  auto response =
+      client.getHttpClient().put(url, client.getToken(), client.getNamespace(),
+                                 parameters.dump().value_or("{}"));
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
@@ -231,8 +234,9 @@ Vault::HttpConsumer::put(const Vault::Client &client, const Vault::Url &url,
   // nlohmann::json json = helpers::create_json(parameters);
   parameters["options"] = options;
 
-  auto response = client.getHttpClient().put(
-      url, client.getToken(), client.getNamespace(), parameters.dump());
+  auto response =
+      client.getHttpClient().put(url, client.getToken(), client.getNamespace(),
+                                 parameters.dump().value_or("{}"));
 
   if (HttpClient::is_success(response)) {
     return response.value().body.value();
