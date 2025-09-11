@@ -83,7 +83,7 @@ std::optional<std::string> Vault::KeyValue::del(const Vault::Path &path,
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/delete/", path), Parameters{},
       [&]([[maybe_unused]] const Parameters &params) {
-        Parameters j;
+        Parameters json;
         j["versions"] = versions;
         return json.dump().value_or("{}");
       });
@@ -99,7 +99,7 @@ Vault::KeyValue::destroy(const Vault::Path &path,
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/destroy/", path), Parameters{},
       [&]([[maybe_unused]] const Parameters &params) {
-        Parameters j;
+        Parameters json;
         j["versions"] = versions;
         return json.dump().value_or("{}");
       });
@@ -114,7 +114,7 @@ Vault::KeyValue::undelete(const Path &path, std::vector<int64_t> versions) {
   return Vault::HttpConsumer::post(
       client_, client_.getUrl("/v1" + mount_ + "/undelete/", path),
       Parameters{}, [&]([[maybe_unused]] const Parameters &params) {
-        Parameters j;
+        Parameters json;
         j["versions"] = versions;
         return json.dump().value_or("{}");
       });
