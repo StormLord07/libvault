@@ -1,4 +1,5 @@
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 
 std::optional<std::string>
 Vault::AWS::Secrets::configureRoot(const Parameters &parameters) {
