@@ -1,4 +1,5 @@
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 
 std::optional<std::string>
 Vault::GoogleCloud::Secrets::configure(const Parameters &parameters) {
