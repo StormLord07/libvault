@@ -1,4 +1,5 @@
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 
 std::optional<std::string> Vault::Sys::Sealwrap::read() {
   return HttpConsumer::get(client_, getUrl());
