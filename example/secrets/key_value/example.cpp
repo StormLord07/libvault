@@ -1,4 +1,5 @@
 #include "../../shared/shared.h"
+#include <glaze/glaze.hpp>
 #include <iostream>
 
 Vault::Client setup(const Vault::Client &rootClient,

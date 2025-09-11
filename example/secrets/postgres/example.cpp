@@ -2,6 +2,7 @@
 #include "../../shared/shared.h"
 #include <filesystem>
 #include <fstream>
+#include <glaze/glaze.hpp>
 #include <iostream>
 #include <pqxx/pqxx>
 

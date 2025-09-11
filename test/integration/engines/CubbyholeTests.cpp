@@ -2,6 +2,7 @@
 
 #include "../TestHelpers.h"
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 
 TEST_CASE("Cubbyhole") {
   Vault::Client vaultClient = TestHelpers::AppRole::login();

@@ -1,5 +1,6 @@
 #include "../../../../lib/json.hpp"
 #include "../../../shared/shared.h"
+#include <glaze/glaze.hpp>
 #include <iostream>
 
 void setup(const Vault::Pki &pkiAdmin) {

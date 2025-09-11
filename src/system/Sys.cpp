@@ -1,4 +1,5 @@
 #include "VaultClient.h"
+#include <glaze/glaze.hpp>
 #include <iostream>
 
 std::optional<std::string> Vault::Sys::health() {
