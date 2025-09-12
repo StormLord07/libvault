@@ -5,6 +5,8 @@
 
 A C++ library for [Hashicorp Vault](https://www.vaultproject.io/)
 
+This fork has closely coupled [glaze](https://github.com/stephenberry/glaze) library, more specifically `glz::json_t`, since leveraging structs would require more code changes, which i'm not ready for, so that we can support writing not just strings, but also integers booleans, vectors, inner jsons and more, more freely
+
 ## C++ 17
 
 This project assumes a C++ 17 capable compiler. This includes GCC 8 or higher,
