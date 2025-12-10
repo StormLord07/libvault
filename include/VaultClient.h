@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace glz {
-struct json_t;
+struct generic;
 }
 
 namespace Vault {
@@ -137,7 +137,7 @@ class Client;
 using Map = std::unordered_map<std::string, std::string>;
 using ValueVariant =
     std::variant<std::string, int, std::vector<std::string>, Map>;
-using Parameters = glz::json_t;
+using Parameters = glz::generic;
 using HttpErrorCallback = std::function<void(std::string)>;
 using ResponseErrorCallback = std::function<void(const HttpResponse &)>;
 using CurlSetupCallback = std::function<void(CURL *curl)>;
