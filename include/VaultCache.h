@@ -6,12 +6,18 @@
 
 #include "VaultClient.h"
 
+enum VaultError
+{
+  EMPTY_REPLY,
+  WRONG_BODY
+};
+
 class VaultCache {
 public:
   explicit VaultCache(Vault::KeyValue &kv) : kv_(kv) {}
 
   // читаем по строковому ключу
-  std::optional<std::string> read(const std::string &key) {
+  std::expected<glz::generic, VaultError> read(const std::string &key) {
     // быстрая дорожка: только shared-lock
     {
       std::shared_lock lock(mutex_);
@@ -30,16 +36,18 @@ public:
     Vault::Path path{key};
     auto resp = kv_.read(path);
     if (!resp)
-      return std::nullopt;
+      return std::unexpected(EMPTY_REPLY);
 
-    std::string value = resp.value(); // если тип другой — приведи тут
+    glz::generic json{};
+    auto err = glz::read_json(json, resp.value());
+    if (err) return std::unexpected(WRONG_BODY);
 
-    auto [pos, _] = cache_.emplace(key, std::move(value));
+    auto [pos, _] = cache_.emplace(key, json.at("data").at("data"));
     return pos->second;
   }
 
 private:
   Vault::KeyValue &kv_;
-  std::unordered_map<std::string, std::string> cache_;
+  std::unordered_map<std::string, glz::generic> cache_;
   mutable std::shared_mutex mutex_;
 };
