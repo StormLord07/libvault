@@ -104,7 +104,10 @@ add_library(
   src/system/sealwrap/Sealwrap.cpp
   src/system/tools/Tools.cpp
   src/system/Sys.cpp
-  src/auth/Tokens.cpp)
+  src/auth/Tokens.cpp
+  src/VaultClient.cpp
+
+  )
 
 if(WIN32)
   set_target_properties(vault PROPERTIES RUNTIME_OUTPUT_NAME "VaultClient")
