@@ -105,7 +105,7 @@ add_library(
   src/system/tools/Tools.cpp
   src/system/Sys.cpp
   src/auth/Tokens.cpp
-  src/VaultClient.cpp
+  src/VaultCache.cpp
 
   )
 
