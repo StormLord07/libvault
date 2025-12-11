@@ -1,4 +1,5 @@
 #include "VaultCache.h"
+#include <glaze/glaze.hpp>
 
 VaultCache::VaultCache(Vault::KeyValue &kv) : kv_(kv) {}
 
