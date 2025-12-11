@@ -12,9 +12,8 @@
 #include <variant>
 #include <vector>
 
-namespace glz {
-struct generic;
-}
+#include <glaze/glaze.hpp>
+#include <glaze/json/generic.hpp>
 
 namespace Vault {
 template <typename Name, typename T> struct Tiny {
