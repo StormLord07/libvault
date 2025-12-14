@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <atomic>
 
-// #include <glaze/glaze.hpp>
+#include <glaze/glaze.hpp>
 #include "VaultClient.h"
 
 enum class VaultError
